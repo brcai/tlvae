@@ -217,9 +217,9 @@ class FinalDecoder(nn.Module):
         return self.output_activation(self.reconstruction(z))
 
 
-class MyModel(torch.nn.Module):
+class TLVAE(torch.nn.Module):
     def __init__(self, d_x, x_window, d_z, z_num, d_y=1, d_h=5, d_gru_h=10, device=None):
-        super(MyModel, self).__init__()
+        super(TLVAE, self).__init__()
 
         self.t = d_x - x_window
         self.z_num = z_num
@@ -346,7 +346,7 @@ class MyModel(torch.nn.Module):
         return kl_loss, rec_loss, pred_loss, x_pred
 
 
-model = MyModel(WINDOW, SLID, Z_DIM, Z_NUM, Y_DIM, H_DIM, GRU_H_DIM, device)
+model = TLVAE(WINDOW, SLID, Z_DIM, Z_NUM, Y_DIM, H_DIM, GRU_H_DIM, device)
 model.to(device)
 print('Model overview and recap\n')
 #print(model)
