@@ -296,7 +296,7 @@ class TLVAE(torch.nn.Module):
         rec_loss = 0
         predict_loss = 0
         #self.z = torch.zeros(x.size()[0], self.t, self.z_num, self.d_z)
-        z = self.reparam(torch.zeros(x.size()[0], self.d_z), torch.ones(x.size()[0], self.d_z)).to(self.device)
+        z = self.reparametrization_trick(torch.zeros(x.size()[0], self.d_z), torch.ones(x.size()[0], self.d_z)).to(self.device)
         gru_h = torch.zeros(x.size()[0], self.d_gru_h)
         gru_h = gru_h.to(self.device)
 
@@ -314,7 +314,7 @@ class TLVAE(torch.nn.Module):
 
             mean_prior, delta_prior = self.decoder_zxz(torch.cat([gru_h, z], 1))
 
-            z = self.reparam(mean_enc, delta_enc)
+            z = self.reparametrization_trick(mean_enc, delta_enc)
 
             kl_tmp = self._kld_gauss(mean_encs[0], delta_encs[0], mean_prior, delta_prior)
 
